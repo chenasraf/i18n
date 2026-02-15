@@ -19,15 +19,13 @@ String generateDartContentFromYaml(Metadata meta, String yamlContent) {
 
   output.writeln('// GENERATED FILE, do not edit!');
   output.writeln(
-    '// ignore_for_file: annotate_overrides, non_constant_identifier_names, prefer_single_quotes, unused_element, unused_field, unnecessary_string_interpolations',
+    '// ignore_for_file: annotate_overrides, non_constant_identifier_names, prefer_single_quotes, unused_element, unused_field, unnecessary_string_interpolations, unnecessary_brace_in_string_interps',
   );
   output.writeln('import \'package:i18n/i18n.dart\' as i18n;');
   if (meta.defaultFileName != null) {
     output.writeln("import '${meta.defaultFileName}';");
   }
-  output.writeln(
-    '\tString get _languageCode => \'${meta.languageCode}\';',
-  );
+  output.writeln('\tString get _languageCode => \'${meta.languageCode}\';');
   output.writeln(
     '\tString _plural(int count, {String? zero, String? one, String? two, String? few, String? many, String? other,}) =>',
   );
@@ -55,7 +53,8 @@ String generateDartContentFromYaml(Metadata meta, String yamlContent) {
 
   output.writeln();
   output.writeln(
-      'Map<String, String> get ${meta.objectName.convertName().firstLower()}Map => {');
+    'Map<String, String> get ${meta.objectName.convertName().firstLower()}Map => {',
+  );
   renderMapEntries(messages, output, '');
   output.writeln('};');
 
@@ -227,3 +226,4 @@ void renderMapEntries(YamlMap messages, StringBuffer output, String prefix) {
 String _renderFileNameError(String name) {
   return 'File name can not contain more than 2 "_" characters: \'$name\'';
 }
+
