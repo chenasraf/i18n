@@ -1,13 +1,11 @@
-// Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
+import 'dart:io';
 import 'dart:math';
 
 import 'package:build/build.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:glob/glob.dart';
 import 'package:i18n/src/i18n_impl.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart';
 
 Builder yamlBasedBuilder(BuilderOptions options) => YamlBasedBuilder();
@@ -83,14 +81,20 @@ class YamlBasedBuilder implements Builder {
     var dartContent = generateDartContentFromYaml(objectName, contents);
 
     try {
-      dartContent = DartFormatter().format(dartContent);
+      final versionText = Platform.version;
+      final version = versionText.substring(
+        0,
+        versionText.indexOf(' '),
+      );
+      final formatter = DartFormatter(languageVersion: Version.parse(version));
+      dartContent = formatter.format(dartContent);
     } on FormatterException {
       log.warning(
         'Could not format generated output, it might contain errors.',
       );
     }
 
-    var copy = currentFile.changeExtension('.dart');
+    final copy = currentFile.changeExtension('.dart');
 
     // Write out the new asset.
     await buildStep.writeAsString(copy, dartContent);

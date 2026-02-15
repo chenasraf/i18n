@@ -1,3 +1,23 @@
+## 4.2.4
+
+- fix double digit version parsing for formatter
+
+## 4.2.3
+
+- fix formatter
+
+## 4.2.2
+
+- update dependencies
+
+## 4.2.1
+
+- update readme
+
+## 4.2.0
+
+- upgrade deps
+
 ## 4.1.1
 
 - add multi base file support (by [shovelmn12](https://github.com/MohiuddinM/i18n/pull/30))
